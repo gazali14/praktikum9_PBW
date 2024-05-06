@@ -12,7 +12,7 @@
     <h1>Concert Ticket Booking</h1>
     <div class="form">
       <!-- Formulir Pemesanan Tiket Konser -->
-      <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+      <form method="post" action="invoice.php">
         <!-- Label untuk input nama -->
         <label for="name">Nama:</label> 
         <input type="text" id="name" name="name" placeholder="Nama"><br>
