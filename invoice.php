@@ -54,8 +54,51 @@
   </div>
   <div class="thank-you">
     <p>Terima kasih telah memesan tiket!</p>
-    <p>Refund awas aja lo anjeng</p>
   </div>
 </div>
+<?php
+// Proses Formulir
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Koneksi ke database
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "konser";
+
+    // Membuat koneksi
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Memeriksa koneksi
+    if ($conn->connect_error) {
+        die("Koneksi gagal: " . $conn->connect_error);
+    }
+
+    // Mengambil nilai dari formulir
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $phone = $_POST["phone"];
+    $concert = $_POST["concert"];
+    $ticket_type = $_POST["ticket_type"];
+    $quantity = $_POST["quantity"];
+
+    // SQL untuk menyimpan data ke dalam tabel
+    if (preg_match("[\d]", $phone) && $name != null) {
+      $sql = "INSERT INTO booking (name, email, phone, concert, ticket_type, quantity) VALUES ('$name', '$email', '$phone', '$concert', '$ticket_type', '$quantity')";
+      if ($conn->query($sql) === TRUE) {
+        echo "<script>alert('Pemesanan berhasil!');</script>";
+      } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+      }
+    } else {
+      echo '<script>window.alert("Data tidak valid, Ada yang ga beres nih")</script>';
+    }
+
+
+
+    // Menutup koneksi
+    $conn->close();
+}
+?>
+
 </body>
 </html>

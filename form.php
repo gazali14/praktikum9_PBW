@@ -12,7 +12,7 @@
     <h1>Concert Ticket Booking</h1>
     <div class="form">
       <!-- Formulir Pemesanan Tiket Konser -->
-      <form method="post" action="invoice.php">
+      <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <!-- Label untuk input nama -->
         <label for="name">Nama:</label> 
         <input type="text" id="name" name="name" placeholder="Nama"><br>
@@ -50,10 +50,7 @@
       </form>
     </div>
   </div>
-</body>
-</html>
-
-<?php
+  <?php
 // Proses Formulir
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Koneksi ke database
@@ -96,3 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
+</body>
+</html>
+
