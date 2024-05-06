@@ -78,13 +78,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $quantity = $_POST["quantity"];
 
     // SQL untuk menyimpan data ke dalam tabel
-    $sql = "INSERT INTO booking (name, email, phone, concert, ticket_type, quantity) VALUES ('$name', '$email', '$phone', '$concert', '$ticket_type', '$quantity')";
-
-    if ($conn->query($sql) === TRUE) {
+    if (preg_match("[\d]", $phone) && $name != null) {
+      $sql = "INSERT INTO booking (name, email, phone, concert, ticket_type, quantity) VALUES ('$name', '$email', '$phone', '$concert', '$ticket_type', '$quantity')";
+      if ($conn->query($sql) === TRUE) {
         echo "<script>alert('Pemesanan berhasil!');</script>";
-    } else {
+      } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
+      }
+    } else {
+      echo '<script>window.alert("Data tidak valid, Ada yang ga beres nih")</script>';
     }
+
+
 
     // Menutup koneksi
     $conn->close();
