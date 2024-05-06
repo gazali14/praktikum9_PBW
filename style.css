@@ -66,3 +66,20 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+/* Style untuk tombol "Tampil Data" */
+.show-data-button {
+  padding: 12px 20px;
+  background-color: #189100;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%; /* Menetapkan lebar tombol agar sesuai dengan lebar container */
+}
+
+/* Style untuk tombol "Tampil Data" saat dihover */
+.show-data-button:hover {
+  background-color: #218838; /* Warna latar belakang hijau yang sedikit lebih gelap saat dihover */
+}

@@ -46,6 +46,7 @@
         <br>
 
         <button type="submit">Beli Tiket</button> <!-- Tombol untuk membuat invoice -->
+        <button class="show-data-button" formaction="tampilForm.php">Tampilkan Data</button> <!-- Tombol untuk menampilkan data -->
       </form>
     </div>
   </div>
