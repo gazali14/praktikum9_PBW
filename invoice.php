@@ -1,104 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Invoice</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
-  }
-  .container {
-    max-width: 600px;
-    margin: 0 auto;
-    margin-top: 10px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  h1 {
-    color: #ff69b4;
-  }
-  .invoice-details {
-    margin-top: 20px;
-    text-align: left;
-  }
-  .invoice-details p {
-    margin: 10px 0;
-  }
-  .thank-you {
-    margin-top: 30px;
-    font-size: 24px;
-    color: #ff69b4;
-  }
-  img {
-    max-width: 100px;
-    height: auto;
-    margin-top: 20px;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice Pemesanan Tiket Konser</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+  /* Reset CSS */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      width: 45%;
+      margin: 20px auto;
+      background: transparent;
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border: 2px solid #007bff;
+      color: #fff;
+    }
+
+    h1 {
+      text-align: center;
+      color: #007bff;
+      margin-bottom: 20px;
+      font-size: x-large;
+    }
+
+    .invoice-details {
+      margin-bottom: 20px;
+    }
+
+    .invoice-details p {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      color: green;
+      font-style: italic;
+    }
+
+    /* Decorative styles */
+    .container {
+      position: relative;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 20px;
+      background-color: #007bff;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .container::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 20px;
+      background-color: #007bff;
+      border-radius: 0 0 10px 10px;
+    }
+
+  </style>
 </head>
+
 <body>
-<div class="container">
-  <h1>Invoice</h1>
-  <div class="invoice-details">
-    <p><strong>Nama:</strong> <?php echo htmlspecialchars($_POST["name"]); ?></p>
-    <p><strong>E-mail:</strong> <?php echo htmlspecialchars($_POST["email"]); ?></p>
-    <p><strong>Nomor Telepon:</strong> <?php echo htmlspecialchars($_POST["phone"]); ?></p>
-    <p><strong>Konser:</strong> <?php echo htmlspecialchars($_POST["concert"]); ?></p>
-    <p><strong>Jenis Tiket:</strong> <?php echo htmlspecialchars($_POST["ticket_type"]); ?></p>
-    <p><strong>Jumlah Tiket:</strong> <?php echo htmlspecialchars($_POST["quantity"]); ?></p>
-  </div>
-  <div class="thank-you">
-    <p>Terima kasih telah memesan tiket!</p>
-  </div>
-</div>
-<?php
-// Proses Formulir
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Koneksi ke database
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "konser";
+  <div class="container">
+    <h1>Invoice Pemesanan Tiket Konser</h1>
+    <div class="invoice-details">
+      <?php
+      // Memeriksa apakah parameter email telah diterima
+      if (isset($_GET['email'])) {
+        $email = $_GET['email'];
 
-    // Membuat koneksi
-    $conn = new mysqli($servername, $username, $password, $dbname);
+        // Query untuk mendapatkan data pemesanan berdasarkan email
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "konser";
 
-    // Memeriksa koneksi
-    if ($conn->connect_error) {
-        die("Koneksi gagal: " . $conn->connect_error);
-    }
+        // Membuat koneksi
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Mengambil nilai dari formulir
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $phone = $_POST["phone"];
-    $concert = $_POST["concert"];
-    $ticket_type = $_POST["ticket_type"];
-    $quantity = $_POST["quantity"];
+        // Memeriksa koneksi
+        if ($conn->connect_error) {
+          die("Koneksi gagal: " . $conn->connect_error);
+        }
 
-    // SQL untuk menyimpan data ke dalam tabel
-    if (preg_match("[\d]", $phone) && $name != null) {
-      $sql = "INSERT INTO booking (name, email, phone, concert, ticket_type, quantity) VALUES ('$name', '$email', '$phone', '$concert', '$ticket_type', '$quantity')";
-      if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Pemesanan berhasil!');</script>";
+        // Query untuk mendapatkan data pemesanan berdasarkan email
+        $sql = "SELECT * FROM booking WHERE email='$email'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+          // Output data pemesanan dalam bentuk detail invoice
+          while ($row = $result->fetch_assoc()) {
+            echo "<pre><strong>Nama          :</strong> " . $row["name"] . "</pre>";
+            echo "<pre><strong>E-mail        :</strong> " . $row["email"] . "</pre>";
+            echo "<pre><strong>Nomor Telepon :</strong> " . $row["phone"] . "</pre>";
+            echo "<pre><strong>Konser        :</strong> " . $row["concert"] . "</pre>";
+            echo "<pre><strong>Jenis Tiket   :</strong> " . $row["ticket_type"] . "</pre>";
+            echo "<pre><strong>Jumlah Tiket  :</strong> " . $row["quantity"] . "</pre>";
+            
+          }
+        } else {
+          echo "Data pemesanan tidak ditemukan.";
+        }
+
+        // Menutup koneksi
+        $conn->close();
       } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Parameter email tidak ditemukan.";
       }
-    } else {
-      echo '<script>window.alert("Data tidak valid, Ada yang ga beres nih")</script>';
-    }
-
-
-
-    // Menutup koneksi
-    $conn->close();
-}
-?>
-
+      ?>
+    </div>
+    <footer>Terima Kasih Telah Memesan Tiket!</footer>
+    <a href="tampilForm.php" class="button">Kembali</a>
+  </div>
 </body>
+
 </html>
